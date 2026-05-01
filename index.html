@@ -1,90 +1,132 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Brief Sitio Web — Ludos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
-:root{--white:#FFFFFF;--off:#F9F9F8;--field:#F5F5F3;--border:#E8E8E5;--border2:#D4D4CF;--t1:#111111;--t2:#555550;--t3:#999993;--tag:#F0F0ED;}
+:root{
+  --white:#FFFFFF;--off:#F9F9F8;--field:#F5F5F3;
+  --border:#E8E8E5;--border2:#D4D4CF;
+  --t1:#111111;--t2:#555550;--t3:#999993;
+  --tag:#F0F0ED;
+  --accent:#B8754A;
+  --accent-soft:#F4EBE2;
+  --shadow-sm:0 1px 2px rgba(17,17,17,.04);
+  --shadow-md:0 4px 16px rgba(17,17,17,.06);
+  --shadow-lg:0 12px 40px rgba(17,17,17,.10);
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{font-family:'Geist',-apple-system,sans-serif;font-size:15px;color:var(--t1);background:var(--white);-webkit-font-smoothing:antialiased;line-height:1.5;}
-#progress-bar{position:fixed;top:0;left:0;right:0;height:2px;background:var(--border);z-index:100;}
-#progress-fill{height:100%;background:var(--t1);width:0%;transition:width .4s ease;}
-#header{position:sticky;top:0;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:50;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;}
-#header span{font-size:13px;color:var(--t1);}
-#header span:last-child{color:var(--t3);}
-.screen{display:none;min-height:calc(100vh - 57px);}
-.screen.active{display:block;}
-#cover{display:flex;align-items:center;justify-content:center;padding:48px 24px;min-height:100vh;}
-.cover-inner{width:100%;max-width:480px;}
-.eyebrow{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:20px;}
-h1{font-family:'Instrument Serif',Georgia,serif;font-size:clamp(40px,10vw,56px);font-weight:400;line-height:1.0;letter-spacing:-1.5px;color:var(--t1);margin-bottom:24px;}
-h1 em{font-style:italic;color:var(--t2);}
-.rule{width:40px;height:1.5px;background:var(--border2);margin-bottom:24px;}
-.cover-desc{font-size:15px;font-weight:300;color:var(--t2);line-height:1.7;margin-bottom:36px;max-width:360px;}
-.tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px;}
-.tag{background:var(--tag);border-radius:100px;padding:5px 12px;font-size:12px;font-weight:500;color:var(--t2);}
-.cover-bot{display:flex;justify-content:space-between;align-items:center;padding-top:28px;border-top:1px solid var(--border);}
+body{overflow-x:hidden;}
+#progress-bar{position:fixed;top:0;left:0;right:0;height:4px;background:var(--border);z-index:100;}
+#progress-fill{height:100%;background:linear-gradient(90deg,var(--t1),var(--accent));width:0%;transition:width .6s var(--ease);box-shadow:0 0 8px rgba(184,117,74,.35);}
+#header{position:sticky;top:0;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);z-index:50;padding:18px 28px;display:flex;justify-content:space-between;align-items:center;}
+#header span{font-size:13px;color:var(--t1);font-weight:500;}
+#header span:last-child{color:var(--t3);font-variant-numeric:tabular-nums;}
+.screen{display:none;min-height:calc(100vh - 61px);}
+.screen.active{display:block;animation:screenIn .55s var(--ease);}
+#cover{display:none;align-items:center;justify-content:center;padding:48px 24px;min-height:100vh;position:relative;overflow:hidden;}
+#cover.active{display:flex;animation:screenIn .55s var(--ease);}
+@keyframes screenIn{0%{opacity:0;transform:translateY(14px);}60%{opacity:1;}100%{opacity:1;transform:translateY(0);}}
+#cover::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 80% 20%,rgba(184,117,74,.10),transparent 60%),radial-gradient(ellipse 70% 60% at 10% 90%,rgba(212,212,207,.30),transparent 60%);pointer-events:none;}
+.cover-inner{width:100%;max-width:560px;position:relative;z-index:1;}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--t2);margin-bottom:24px;padding:6px 14px;background:var(--white);border:1px solid var(--border);border-radius:100px;box-shadow:var(--shadow-sm);}
+.eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px rgba(184,117,74,.18);}
+h1{font-family:'Instrument Serif',Georgia,serif;font-size:clamp(48px,11vw,84px);font-weight:400;line-height:.96;letter-spacing:-2px;color:var(--t1);margin-bottom:28px;}
+h1 em{font-style:italic;color:var(--accent);}
+.rule{width:48px;height:2px;background:var(--accent);margin-bottom:28px;border-radius:2px;}
+.cover-desc{font-size:16px;font-weight:300;color:var(--t2);line-height:1.7;margin-bottom:40px;max-width:420px;}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:48px;}
+.tag{background:var(--white);border:1px solid var(--border);border-radius:100px;padding:6px 14px;font-size:12px;font-weight:500;color:var(--t2);transition:all .25s var(--ease);box-shadow:var(--shadow-sm);}
+.tag:hover{transform:translateY(-1px);border-color:var(--accent);color:var(--accent);}
+.cover-bot{display:flex;justify-content:space-between;align-items:center;padding-top:32px;border-top:1px solid var(--border);gap:16px;flex-wrap:wrap;}
 .cover-note{font-size:13px;color:var(--t3);}
-.page-inner{max-width:600px;margin:0 auto;padding:48px 24px 120px;}
-.sec-head{margin-bottom:28px;}
-.sec-row{display:flex;align-items:baseline;gap:12px;margin-bottom:4px;}
-.sec-n{font-size:11px;font-weight:500;color:var(--t3);letter-spacing:.06em;}
-.sec-title{font-family:'Instrument Serif',Georgia,serif;font-size:clamp(22px,5vw,28px);font-weight:400;color:var(--t1);letter-spacing:-.3px;line-height:1;}
+.page-inner{max-width:640px;margin:0 auto;padding:64px 28px 160px;}
+.sec-head{margin-bottom:40px;}
+.sec-row{display:flex;align-items:baseline;gap:14px;margin-bottom:8px;}
+.sec-n{font-size:11px;font-weight:600;color:var(--accent);letter-spacing:.10em;}
+.sec-title{font-family:'Instrument Serif',Georgia,serif;font-size:clamp(26px,5.5vw,34px);font-weight:400;color:var(--t1);letter-spacing:-.4px;line-height:1.05;}
 .sec-title em{font-style:italic;color:var(--t2);}
-.sec-sub{font-size:13px;color:var(--t3);padding-left:32px;}
-.divider{height:1px;background:var(--border);margin-bottom:28px;}
-.intro{border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:24px;background:var(--off);}
-.intro p{font-size:13.5px;color:var(--t2);line-height:1.65;}
+.sec-sub{font-size:13.5px;color:var(--t3);padding-left:36px;line-height:1.55;}
+.divider{height:1px;background:var(--border);margin-bottom:36px;}
+.intro{border:1px solid var(--border);border-radius:14px;padding:20px 24px;margin-bottom:32px;background:var(--off);}
+.intro p{font-size:13.5px;color:var(--t2);line-height:1.7;}
 .intro strong{color:var(--t1);font-weight:500;}
-.nota{border-left:2px solid var(--border2);padding:10px 16px;margin-bottom:22px;}
-.nota p{font-size:12.5px;color:var(--t3);line-height:1.6;}
-.q{margin-bottom:18px;}
-.q-label{display:block;font-size:14px;font-weight:500;color:var(--t1);margin-bottom:3px;line-height:1.4;}
-.q-hint{display:block;font-size:12px;color:var(--t3);margin-bottom:8px;line-height:1.45;}
-textarea{width:100%;background:var(--field);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;font-size:14px;color:var(--t1);resize:none;outline:none;font-family:inherit;line-height:1.6;transition:border-color .15s;}
-textarea:focus{border-color:var(--border2);}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;}
-@media(max-width:500px){.g2{grid-template-columns:1fr;}}
-.checks-label{display:block;font-size:14px;font-weight:500;color:var(--t1);margin-bottom:10px;}
-.checks-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:20px;}
-@media(max-width:500px){.checks-grid{grid-template-columns:1fr;}}
-.check-item{display:flex;align-items:center;gap:10px;padding:10px 13px;background:var(--white);border:1.5px solid var(--border);border-radius:9px;font-size:13px;color:var(--t2);cursor:pointer;transition:all .12s;user-select:none;line-height:1.35;}
-.check-item.on{background:var(--tag);border-color:var(--border2);}
-.checkbox{width:16px;height:16px;border:1.5px solid var(--border2);border-radius:4px;background:var(--off);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .12s;}
-.check-item.on .checkbox{background:var(--t1);border-color:var(--t1);}
-.tick{display:none;}
-.check-item.on .tick{display:block;}
-.prior-label{display:block;font-size:14px;font-weight:500;color:var(--t1);margin-bottom:3px;}
-.prior-hint{display:block;font-size:12px;color:var(--t3);margin-bottom:10px;}
-.prior-wrap{margin-bottom:20px;}
-.prior-item{display:flex;align-items:stretch;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:6px;background:var(--white);}
-.prior-sel{width:48px;background:var(--field);border:none;border-right:1px solid var(--border);font-family:'Instrument Serif',serif;font-size:14px;color:var(--t3);text-align:center;cursor:pointer;outline:none;padding:0 4px;}
-.prior-text{padding:12px 16px;font-size:13px;color:var(--t2);line-height:1.45;display:flex;align-items:center;}
-#nav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.95);backdrop-filter:blur(16px);border-top:1px solid var(--border);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;z-index:50;}
-.dots{display:flex;gap:5px;align-items:center;}
-.dot{height:6px;border-radius:3px;background:var(--border);transition:all .2s;width:6px;}
-.dot.on{width:20px;background:var(--t1);}
-.btn{display:flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;border:none;}
-.btn-ghost{background:transparent;color:var(--t2);border:1.5px solid var(--border)!important;}
-.btn-solid{background:var(--t1);color:var(--white);}
-.btn:disabled{opacity:.4;cursor:not-allowed;}
+.nota{border-left:2px solid var(--accent);padding:12px 18px;margin-bottom:28px;background:linear-gradient(90deg,var(--accent-soft),transparent 60%);border-radius:0 8px 8px 0;}
+.nota p{font-size:12.5px;color:var(--t2);line-height:1.65;}
+.q{margin-bottom:26px;}
+.q-label{display:block;font-size:14.5px;font-weight:500;color:var(--t1);margin-bottom:4px;line-height:1.4;}
+.q-hint{display:block;font-size:12.5px;color:var(--t3);margin-bottom:10px;line-height:1.5;}
+textarea{width:100%;background:var(--field);border:1.5px solid var(--border);border-radius:11px;padding:12px 16px;font-size:14px;color:var(--t1);resize:none;outline:none;font-family:inherit;line-height:1.55;transition:border-color .2s,background .2s,box-shadow .2s;min-height:96px;}
+textarea:hover{border-color:var(--border2);}
+textarea:focus{border-color:var(--accent);background:var(--white);box-shadow:0 0 0 4px rgba(184,117,74,.10);}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:560px){.row{grid-template-columns:1fr;}}
+.checks-label{display:block;font-size:14.5px;font-weight:500;color:var(--t1);margin-bottom:12px;}
+.checks-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:26px;}
+@media(max-width:520px){.checks-grid{grid-template-columns:1fr;}}
+.check-item{display:flex;align-items:center;gap:12px;padding:12px 15px;background:var(--white);border:1.5px solid var(--border);border-radius:11px;font-size:13.5px;color:var(--t2);cursor:pointer;transition:all .25s var(--ease);user-select:none;line-height:1.4;position:relative;}
+.check-item:hover{border-color:var(--border2);background:var(--off);transform:translateY(-1px);box-shadow:var(--shadow-sm);}
+.check-item.on{background:var(--accent-soft);border-color:var(--accent);color:var(--t1);font-weight:500;box-shadow:0 4px 14px rgba(184,117,74,.12);}
+.check-item.pop{animation:pop .35s var(--ease);}
+@keyframes pop{0%{transform:scale(1);}40%{transform:scale(1.03);}100%{transform:scale(1);}}
+.checkbox{width:18px;height:18px;border:1.5px solid var(--border2);border-radius:5px;background:var(--white);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .25s var(--ease);}
+.check-item.on .checkbox{background:var(--accent);border-color:var(--accent);}
+.tick{opacity:0;transform:scale(.5);transition:all .25s var(--ease);}
+.check-item.on .tick{opacity:1;transform:scale(1);}
+.prior-label{display:block;font-size:14.5px;font-weight:500;color:var(--t1);margin-bottom:4px;}
+.prior-hint{display:block;font-size:12.5px;color:var(--t3);margin-bottom:12px;}
+.prior-wrap{margin-bottom:26px;}
+.prior-item{display:flex;align-items:stretch;border:1px solid var(--border);border-radius:11px;overflow:hidden;margin-bottom:8px;background:var(--white);transition:all .2s var(--ease);}
+.prior-item:hover{border-color:var(--border2);box-shadow:var(--shadow-sm);}
+.prior-sel{width:54px;background:var(--field);border:none;border-right:1px solid var(--border);font-family:'Instrument Serif',serif;font-size:16px;color:var(--t2);text-align:center;cursor:pointer;outline:none;padding:0 4px;transition:background .2s,color .2s;}
+.prior-sel:hover,.prior-sel:focus{background:var(--accent-soft);color:var(--accent);}
+.prior-text{padding:14px 18px;font-size:13.5px;color:var(--t2);line-height:1.5;display:flex;align-items:center;}
+#hint{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);background:var(--t1);color:var(--white);padding:11px 18px;border-radius:100px;font-size:13px;font-weight:400;opacity:0;pointer-events:none;transition:all .35s var(--ease);z-index:60;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:8px;max-width:calc(100vw - 32px);text-align:center;}
+#hint.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#hint::before{content:"✦";color:var(--accent);}
+#nav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--border);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;z-index:50;gap:12px;padding-bottom:max(14px,env(safe-area-inset-bottom));}
+.dots-wrap{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.dots{display:flex;gap:6px;align-items:center;}
+.dot{height:8px;border-radius:4px;background:var(--border);transition:all .35s var(--ease);width:8px;}
+.dot.done{background:var(--accent);width:8px;}
+.dot.on{width:28px;background:linear-gradient(90deg,var(--t1),var(--accent));}
+.dots-label{font-size:11px;color:var(--t3);font-weight:500;letter-spacing:.04em;font-variant-numeric:tabular-nums;}
+@media(max-width:520px){.dots-label{display:none;}}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:11px 22px;border-radius:11px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;border:none;transition:all .2s var(--ease);white-space:nowrap;}
+.btn svg{transition:transform .25s var(--ease);}
+.btn-ghost{background:transparent;color:var(--t2);border:1.5px solid var(--border);}
+.btn-ghost:hover{background:var(--off);border-color:var(--border2);color:var(--t1);}
+.btn-ghost:hover svg{transform:translateX(-3px);}
+.btn-solid{background:var(--t1);color:var(--white);box-shadow:var(--shadow-md);}
+.btn-solid:hover{background:#000;transform:translateY(-1px);box-shadow:var(--shadow-lg);}
+.btn-solid:hover svg{transform:translateX(3px);}
+.btn-solid:active{transform:translateY(0);}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none!important;}
+.spinner{width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,.3);border-top-color:var(--white);animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
 #success{display:none;min-height:100vh;align-items:center;justify-content:center;padding:40px 24px;text-align:center;}
-#success.active{display:flex;}
-.s-icon{width:48px;height:48px;background:var(--t1);border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;}
-.s-h{font-family:'Instrument Serif',serif;font-size:28px;font-weight:400;color:var(--t1);margin-bottom:12px;}
-.s-p{font-size:14px;color:var(--t2);line-height:1.7;}
-.s-firma{margin-top:32px;padding-top:24px;border-top:1px solid var(--border);font-size:13px;color:var(--t3);}
+#success.active{display:flex;animation:screenIn .6s var(--ease);}
+.s-icon{width:56px;height:56px;background:var(--accent);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 28px;box-shadow:0 8px 24px rgba(184,117,74,.30);animation:pop .5s var(--ease) .2s both;}
+.s-h{font-family:'Instrument Serif',serif;font-size:32px;font-weight:400;color:var(--t1);margin-bottom:14px;}
+.s-h em{font-style:italic;color:var(--accent);}
+.s-p{font-size:14.5px;color:var(--t2);line-height:1.7;max-width:380px;margin:0 auto;}
+.s-firma{margin-top:36px;padding-top:24px;border-top:1px solid var(--border);font-size:12px;color:var(--t3);}
+@media(max-width:560px){#header{padding:14px 18px;}.page-inner{padding:40px 20px 140px;}.sec-head{margin-bottom:28px;}.sec-sub{padding-left:0;}.sec-row{flex-wrap:wrap;}#cover{padding:32px 20px;}.cover-bot{flex-direction:column-reverse;align-items:stretch;gap:16px;}.cover-bot .btn{justify-content:center;}#nav{padding:12px 16px;}.btn{padding:11px 18px;font-size:13.5px;}}
 </style>
 </head>
 <body>
 <div id="progress-bar"><div id="progress-fill"></div></div>
-<div id="header" style="display:none"><span id="h-title">Ludos — Brief de Sitio Web</span><span id="h-step"></span></div>
+<div id="header" style="display:none"><span>Ludos — Brief de Sitio Web</span><span id="h-step"></span></div>
+<div id="hint"></div>
 
-<!-- PORTADA -->
-<div id="cover" class="screen active">
+<!-- COVER -->
+<section id="cover" class="screen active">
   <div class="cover-inner">
     <div class="eyebrow">Brief de Proyecto — Sitio Web</div>
     <h1>Todo lo que<br>necesito<br><em>saber.</em></h1>
@@ -96,88 +138,88 @@ textarea:focus{border-color:var(--border2);}
       <button class="btn btn-solid" onclick="go(1)">Comenzar <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
   </div>
-</div>
+</section>
 
 <!-- S1 -->
-<div id="s1" class="screen"><div class="page-inner">
-  <div class="sec-head"><div class="sec-row"><span class="sec-n">01</span><div class="sec-title">Sobre <em>Ludos</em></div></div><div class="sec-sub">El origen, la misión y lo que te diferencia.</div></div>
+<section id="s1" class="screen"><div class="page-inner">
+  <div class="sec-head"><div class="sec-row"><span class="sec-n">01</span><h2 class="sec-title">Sobre <em>Ludos</em></h2></div><p class="sec-sub">El origen, la misión y lo que te diferencia.</p></div>
   <div class="divider"></div>
   <div class="intro"><p>Hola Sebastián. Antes de escribir una sola línea de código necesito entender bien tu emprendimiento. <strong>Responde con tus propias palabras</strong> — sin tecnicismos, como si me lo contaras en persona.</p></div>
-  <div class="q"><span class="q-label">¿Cómo nació Ludos?</span><span class="q-hint">¿De dónde viene la idea? ¿Qué problema quisiste resolver?</span><textarea id="origen" rows="4" placeholder="Cuéntame la historia…"></textarea></div>
-  <div class="q"><span class="q-label">Si tuvieras que explicar Ludos en una sola frase, ¿qué dirías?</span><textarea id="frase" rows="2" placeholder="Ej: Hacemos juguetes de madera que reconectan a las familias…"></textarea></div>
-  <div class="g2">
-    <div class="q"><span class="q-label">¿Cuánto tiempo llevas con Ludos?</span><textarea id="tiempo" rows="2" placeholder="Ej: 3 años, desde 2021"></textarea></div>
-    <div class="q"><span class="q-label">¿Trabajas solo o tienes ayuda?</span><textarea id="equipo" rows="2" placeholder="Ej: Solo yo / me ayuda alguien"></textarea></div>
+  <div class="q"><label class="q-label">¿Cómo nació Ludos?</label><span class="q-hint">¿De dónde viene la idea? ¿Qué problema quisiste resolver?</span><textarea id="origen" placeholder="Cuéntame la historia…"></textarea></div>
+  <div class="q"><label class="q-label">Si tuvieras que explicar Ludos en una sola frase, ¿qué dirías?</label><textarea id="frase" placeholder="Ej: Hacemos juguetes de madera que reconectan a las familias…"></textarea></div>
+  <div class="row">
+    <div class="q"><label class="q-label">¿Cuánto tiempo llevas con Ludos?</label><textarea id="tiempo" placeholder="Ej: 3 años, desde 2021"></textarea></div>
+    <div class="q"><label class="q-label">¿Trabajas solo o tienes ayuda?</label><textarea id="equipo" placeholder="Ej: Solo yo / me ayuda alguien"></textarea></div>
   </div>
-  <div class="q"><span class="q-label">¿Por qué un cliente debería comprarte a ti y no a otra tienda de juguetes de madera?</span><span class="q-hint">Lo que para ti parece obvio, muchas veces es el argumento más poderoso.</span><textarea id="diferenciador" rows="4" placeholder="Tu respuesta…"></textarea></div>
-  <div class="q"><span class="q-label">¿Qué es lo que más te gusta de lo que haces?</span><textarea id="gusta" rows="3" placeholder="Tu respuesta…"></textarea></div>
-</div></div>
+  <div class="q"><label class="q-label">¿Por qué un cliente debería comprarte a ti y no a otra tienda de juguetes de madera?</label><span class="q-hint">Lo que para ti parece obvio, muchas veces es el argumento más poderoso.</span><textarea id="diferenciador" placeholder="Tu respuesta…"></textarea></div>
+  <div class="q"><label class="q-label">¿Qué es lo que más te gusta de lo que haces?</label><textarea id="gusta" placeholder="Tu respuesta…"></textarea></div>
+</div></section>
 
 <!-- S2 -->
-<div id="s2" class="screen"><div class="page-inner">
-  <div class="sec-head"><div class="sec-row"><span class="sec-n">02</span><div class="sec-title">Los <em>productos</em></div></div><div class="sec-sub">Catálogo, precios y proceso de fabricación.</div></div>
+<section id="s2" class="screen"><div class="page-inner">
+  <div class="sec-head"><div class="sec-row"><span class="sec-n">02</span><h2 class="sec-title">Los <em>productos</em></h2></div><p class="sec-sub">Catálogo, precios y proceso de fabricación.</p></div>
   <div class="divider"></div>
-  <div class="q"><span class="q-label">¿Qué productos vendes hoy? Escribe el nombre de cada uno.</span><span class="q-hint">Ej: Balancín Pikler, Conecta 4, Set de bloques, Juegos para terapia…</span><textarea id="productos" rows="6" placeholder="Lista tus productos…"></textarea></div>
-  <div class="q"><span class="q-label">¿Cuál es tu producto estrella — el que más vendes o del que más orgulloso estás?</span><span class="q-hint">¿Por qué crees que conecta tanto con tus clientes?</span><textarea id="estrella" rows="3" placeholder="Tu respuesta…"></textarea></div>
+  <div class="q"><label class="q-label">¿Qué productos vendes hoy?</label><span class="q-hint">Escribe el nombre de cada uno.</span><textarea id="productos" placeholder="Ej: Balancín Pikler, Conecta 4, Set de bloques, Juegos para terapia…"></textarea></div>
+  <div class="q"><label class="q-label">¿Cuál es tu producto estrella?</label><span class="q-hint">El que más vendes o del que más orgulloso estás. ¿Por qué conecta tanto?</span><textarea id="estrella" placeholder="Tu respuesta…"></textarea></div>
   <span class="checks-label">¿Cómo funciona el stock?</span>
   <div class="checks-grid">
-    <div class="check-item" onclick="tog(this,'stock')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Fabrico cada producto cuando me lo piden</div>
-    <div class="check-item" onclick="tog(this,'stock')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Tengo algunos listos y otros al pedir</div>
-    <div class="check-item" onclick="tog(this,'stock')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Tengo stock permanente de todo</div>
-    <div class="check-item" onclick="tog(this,'stock')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Depende del producto</div>
+    <div class="check-item" onclick="tog(this,'stock')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Fabrico cada producto cuando me lo piden</div>
+    <div class="check-item" onclick="tog(this,'stock')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Tengo algunos listos y otros al pedir</div>
+    <div class="check-item" onclick="tog(this,'stock')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Tengo stock permanente de todo</div>
+    <div class="check-item" onclick="tog(this,'stock')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Depende del producto</div>
   </div>
-  <div class="g2">
-    <div class="q"><span class="q-label">¿Cuánto cuestan tus productos?</span><span class="q-hint">Rango. Ej: $8.000 a $85.000 CLP</span><textarea id="precios" rows="2" placeholder="Rango de precios…"></textarea></div>
-    <div class="q"><span class="q-label">¿Cuánto demora fabricar un pedido?</span><span class="q-hint">Desde que paga. Ej: 7 a 10 días hábiles</span><textarea id="fabricacion" rows="2" placeholder="Tiempo estimado…"></textarea></div>
+  <div class="row">
+    <div class="q"><label class="q-label">¿Cuánto cuestan tus productos?</label><span class="q-hint">Rango. Ej: $8.000 a $85.000 CLP</span><textarea id="precios" placeholder="Tu respuesta…"></textarea></div>
+    <div class="q"><label class="q-label">¿Cuánto demora fabricar un pedido?</label><span class="q-hint">Desde que paga. Ej: 7 a 10 días hábiles</span><textarea id="fabricacion" placeholder="Tu respuesta…"></textarea></div>
   </div>
-  <div class="q"><span class="q-label">¿Haces envíos a todo Chile? ¿Cómo funciona?</span><span class="q-hint">Ej: Starken / Solo retiro en La Serena / Gratis sobre $50.000</span><textarea id="envios" rows="3" placeholder="Tu respuesta…"></textarea></div>
-</div></div>
+  <div class="q"><label class="q-label">¿Haces envíos a todo Chile? ¿Cómo funciona?</label><textarea id="envios" placeholder="Ej: Starken / Solo retiro en La Serena / Gratis sobre $50.000"></textarea></div>
+</div></section>
 
 <!-- S3 -->
-<div id="s3" class="screen"><div class="page-inner">
-  <div class="sec-head"><div class="sec-row"><span class="sec-n">03</span><div class="sec-title">Tus <em>clientes</em></div></div><div class="sec-sub">A quién le vendes hoy y a quién quieres llegar.</div></div>
+<section id="s3" class="screen"><div class="page-inner">
+  <div class="sec-head"><div class="sec-row"><span class="sec-n">03</span><h2 class="sec-title">Tus <em>clientes</em></h2></div><p class="sec-sub">A quién le vendes hoy y a quién quieres llegar.</p></div>
   <div class="divider"></div>
   <span class="checks-label">¿A quiénes les vendes hoy? Marca todos los que apliquen.</span>
   <div class="checks-grid">
-    <div class="check-item" onclick="tog(this,'clientes')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Papás y mamás buscando juguetes</div>
-    <div class="check-item" onclick="tog(this,'clientes')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Abuelos buscando un regalo especial</div>
-    <div class="check-item" onclick="tog(this,'clientes')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Jardines infantiles y colegios</div>
-    <div class="check-item" onclick="tog(this,'clientes')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Fonoaudiólogos y terapeutas</div>
-    <div class="check-item" onclick="tog(this,'clientes')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Psicólogos o educadores diferenciales</div>
-    <div class="check-item" onclick="tog(this,'clientes')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Empresas para regalos corporativos</div>
+    <div class="check-item" onclick="tog(this,'clientes')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Papás y mamás buscando juguetes</div>
+    <div class="check-item" onclick="tog(this,'clientes')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Abuelos buscando un regalo especial</div>
+    <div class="check-item" onclick="tog(this,'clientes')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Jardines infantiles y colegios</div>
+    <div class="check-item" onclick="tog(this,'clientes')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Fonoaudiólogos y terapeutas</div>
+    <div class="check-item" onclick="tog(this,'clientes')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Psicólogos o educadores diferenciales</div>
+    <div class="check-item" onclick="tog(this,'clientes')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Empresas para regalos corporativos</div>
   </div>
-  <div class="q"><span class="q-label">Describe a la persona que más te compra.</span><span class="q-hint">Edad, ocupación, dónde vive, por qué llega a Ludos, qué le importa al comprar.</span><textarea id="cliente" rows="4" placeholder="Tu respuesta…"></textarea></div>
-  <div class="q"><span class="q-label">¿Qué preguntas te hace la gente siempre antes de comprar?</span><span class="q-hint">Las que llegan por Instagram o WhatsApp. Esas son las dudas que el sitio debe responder.</span><textarea id="preguntas" rows="3" placeholder="Tu respuesta…"></textarea></div>
-  <div class="g2">
-    <div class="q"><span class="q-label">¿Dónde están tus clientes?</span><span class="q-hint">Ej: IV Región principalmente, también Santiago</span><textarea id="ubicacion" rows="2" placeholder="Regiones…"></textarea></div>
-    <div class="q"><span class="q-label">¿Has vendido fuera de Chile?</span><span class="q-hint">Ej: Sí, mandé a Argentina / No por ahora</span><textarea id="exterior" rows="2" placeholder="Tu respuesta…"></textarea></div>
+  <div class="q"><label class="q-label">Describe a la persona que más te compra.</label><span class="q-hint">Edad, ocupación, dónde vive, por qué llega a Ludos, qué le importa al comprar.</span><textarea id="cliente" placeholder="Tu respuesta…"></textarea></div>
+  <div class="q"><label class="q-label">¿Qué preguntas te hace la gente siempre antes de comprar?</label><span class="q-hint">Las que llegan por Instagram o WhatsApp. Esas son las dudas que el sitio debe responder.</span><textarea id="preguntas" placeholder="Tu respuesta…"></textarea></div>
+  <div class="row">
+    <div class="q"><label class="q-label">¿Dónde están tus clientes?</label><span class="q-hint">Ej: IV Región principalmente, también Santiago</span><textarea id="ubicacion" placeholder="Regiones…"></textarea></div>
+    <div class="q"><label class="q-label">¿Has vendido fuera de Chile?</label><span class="q-hint">Ej: Sí, mandé a Argentina / No por ahora</span><textarea id="exterior" placeholder="Tu respuesta…"></textarea></div>
   </div>
-</div></div>
+</div></section>
 
 <!-- S4 -->
-<div id="s4" class="screen"><div class="page-inner">
-  <div class="sec-head"><div class="sec-row"><span class="sec-n">04</span><div class="sec-title">Cómo <em>vendes</em> hoy</div></div><div class="sec-sub">El proceso actual de venta, de principio a fin.</div></div>
+<section id="s4" class="screen"><div class="page-inner">
+  <div class="sec-head"><div class="sec-row"><span class="sec-n">04</span><h2 class="sec-title">Cómo <em>vendes</em> hoy</h2></div><p class="sec-sub">El proceso actual de venta, de principio a fin.</p></div>
   <div class="divider"></div>
   <span class="checks-label">¿Por dónde te contactan los clientes para comprar?</span>
   <div class="checks-grid">
-    <div class="check-item" onclick="tog(this,'canales')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Instagram — mensaje directo</div>
-    <div class="check-item" onclick="tog(this,'canales')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>WhatsApp</div>
-    <div class="check-item" onclick="tog(this,'canales')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>En persona — ferias y eventos</div>
-    <div class="check-item" onclick="tog(this,'canales')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Mercado Libre u otra plataforma</div>
-    <div class="check-item" onclick="tog(this,'canales')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Boca a boca / recomendación</div>
-    <div class="check-item" onclick="tog(this,'canales')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Otro</div>
+    <div class="check-item" onclick="tog(this,'canales')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Instagram — mensaje directo</div>
+    <div class="check-item" onclick="tog(this,'canales')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>WhatsApp</div>
+    <div class="check-item" onclick="tog(this,'canales')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>En persona — ferias y eventos</div>
+    <div class="check-item" onclick="tog(this,'canales')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Mercado Libre u otra plataforma</div>
+    <div class="check-item" onclick="tog(this,'canales')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Boca a boca / recomendación</div>
+    <div class="check-item" onclick="tog(this,'canales')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Otro</div>
   </div>
-  <div class="q"><span class="q-label">Descríbeme el proceso de venta paso a paso.</span><span class="q-hint">Desde que alguien te escribe hasta que recibe el producto. No importa si es informal.</span><textarea id="proceso" rows="5" placeholder="Paso a paso…"></textarea></div>
-  <div class="g2">
-    <div class="q"><span class="q-label">¿Qué medios de pago aceptas?</span><span class="q-hint">Ej: Transferencia, Flow, efectivo</span><textarea id="pagos" rows="2" placeholder="Tu respuesta…"></textarea></div>
-    <div class="q"><span class="q-label">¿Cuántos pedidos recibes al mes?</span><span class="q-hint">Un rango está bien. Ej: Entre 5 y 15</span><textarea id="pedidos" rows="2" placeholder="Tu respuesta…"></textarea></div>
+  <div class="q"><label class="q-label">Descríbeme el proceso de venta paso a paso.</label><span class="q-hint">Desde que alguien te escribe hasta que recibe el producto. No importa si es informal.</span><textarea id="proceso" placeholder="Paso a paso…"></textarea></div>
+  <div class="row">
+    <div class="q"><label class="q-label">¿Qué medios de pago aceptas?</label><textarea id="pagos" placeholder="Ej: Transferencia, Flow, efectivo"></textarea></div>
+    <div class="q"><label class="q-label">¿Cuántos pedidos recibes al mes?</label><span class="q-hint">Un rango está bien. Ej: Entre 5 y 15</span><textarea id="pedidos" placeholder="Tu respuesta…"></textarea></div>
   </div>
-  <div class="q"><span class="q-label">¿Participas en ferias o eventos? ¿Con qué frecuencia?</span><textarea id="ferias" rows="3" placeholder="Tu respuesta…"></textarea></div>
-</div></div>
+  <div class="q"><label class="q-label">¿Participas en ferias o eventos? ¿Con qué frecuencia?</label><textarea id="ferias" placeholder="Tu respuesta…"></textarea></div>
+</div></section>
 
 <!-- S5 -->
-<div id="s5" class="screen"><div class="page-inner">
-  <div class="sec-head"><div class="sec-row"><span class="sec-n">05</span><div class="sec-title">El sitio <em>web</em></div></div><div class="sec-sub">Objetivos, prioridades y referencias visuales.</div></div>
+<section id="s5" class="screen"><div class="page-inner">
+  <div class="sec-head"><div class="sec-row"><span class="sec-n">05</span><h2 class="sec-title">El sitio <em>web</em></h2></div><p class="sec-sub">Objetivos, prioridades y referencias visuales.</p></div>
   <div class="divider"></div>
   <div class="nota"><p>No necesitas saber de páginas web para responder esto. Solo dime qué necesitas lograr — yo me encargo de cómo construirlo.</p></div>
   <span class="prior-label">¿Para qué quieres el sitio?</span>
@@ -188,49 +230,49 @@ textarea:focus{border-color:var(--border2);}
     <div class="prior-item"><select class="prior-sel" id="p3"><option value="">—</option><option>1</option><option>2</option><option>3</option><option>4</option></select><div class="prior-text">Llegar a colegios, jardines y clínicas que necesiten comprar en cantidad</div></div>
     <div class="prior-item"><select class="prior-sel" id="p4"><option value="">—</option><option>1</option><option>2</option><option>3</option><option>4</option></select><div class="prior-text">Aparecer en Google cuando alguien busca juguetes de madera o juegos para terapia</div></div>
   </div>
-  <div class="q"><span class="q-label">¿Hay algo que definitivamente debe estar en el sitio?</span><span class="q-hint">Ej: La historia de Ludos / Sección sobre pedagogía Pikler / Video de fabricación</span><textarea id="contenido" rows="3" placeholder="Tu respuesta…"></textarea></div>
-  <div class="g2">
-    <div class="q"><span class="q-label">¿Hay algún sitio web que te guste como referencia?</span><span class="q-hint">De cualquier rubro. Un link o descripción sirve.</span><textarea id="referencia" rows="3" placeholder="Links…"></textarea></div>
-    <div class="q"><span class="q-label">¿Tienes alguna fecha límite?</span><span class="q-hint">Ej: Día del Niño / Feria de junio / Sin apuro</span><textarea id="fecha" rows="3" placeholder="Tu respuesta…"></textarea></div>
+  <div class="q"><label class="q-label">¿Hay algo que definitivamente debe estar en el sitio?</label><span class="q-hint">Ej: La historia de Ludos / Sección sobre pedagogía Pikler / Video de fabricación</span><textarea id="contenido" placeholder="Tu respuesta…"></textarea></div>
+  <div class="row">
+    <div class="q"><label class="q-label">¿Hay algún sitio web que te guste como referencia?</label><span class="q-hint">De cualquier rubro. Un link o descripción sirve.</span><textarea id="referencia" placeholder="Links…"></textarea></div>
+    <div class="q"><label class="q-label">¿Tienes alguna fecha límite?</label><span class="q-hint">Ej: Día del Niño / Feria de junio / Sin apuro</span><textarea id="fecha" placeholder="Tu respuesta…"></textarea></div>
   </div>
   <span class="checks-label">¿Cómo describirías el estilo visual de Ludos?</span>
   <div class="checks-grid">
-    <div class="check-item" onclick="tog(this,'estilo')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Natural y cálido — madera, tonos tierra</div>
-    <div class="check-item" onclick="tog(this,'estilo')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Colorido y alegre, como el logo</div>
-    <div class="check-item" onclick="tog(this,'estilo')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Artesanal, con alma de hecho a mano</div>
-    <div class="check-item" onclick="tog(this,'estilo')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Limpio y moderno, con calidez</div>
-    <div class="check-item" onclick="tog(this,'estilo')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Educativo y confiable, para profesionales</div>
-    <div class="check-item" onclick="tog(this,'estilo')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Lúdico — que transmita juego y movimiento</div>
+    <div class="check-item" onclick="tog(this,'estilo')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Natural y cálido — madera, tonos tierra</div>
+    <div class="check-item" onclick="tog(this,'estilo')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Colorido y alegre, como el logo</div>
+    <div class="check-item" onclick="tog(this,'estilo')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Artesanal, con alma de hecho a mano</div>
+    <div class="check-item" onclick="tog(this,'estilo')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Limpio y moderno, con calidez</div>
+    <div class="check-item" onclick="tog(this,'estilo')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Educativo y confiable, para profesionales</div>
+    <div class="check-item" onclick="tog(this,'estilo')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Lúdico — que transmita juego y movimiento</div>
   </div>
-</div></div>
+</div></section>
 
 <!-- S6 -->
-<div id="s6" class="screen"><div class="page-inner">
-  <div class="sec-head"><div class="sec-row"><span class="sec-n">06</span><div class="sec-title">Fotos y <em>materiales</em></div></div><div class="sec-sub">Con qué contamos para construir el sitio desde el día uno.</div></div>
+<section id="s6" class="screen"><div class="page-inner">
+  <div class="sec-head"><div class="sec-row"><span class="sec-n">06</span><h2 class="sec-title">Fotos y <em>materiales</em></h2></div><p class="sec-sub">Con qué contamos para construir el sitio desde el día uno.</p></div>
   <div class="divider"></div>
   <span class="checks-label">¿Qué tienes disponible hoy?</span>
   <div class="checks-grid">
-    <div class="check-item" onclick="tog(this,'mat')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Fotos de calidad de los productos</div>
-    <div class="check-item" onclick="tog(this,'mat')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Fotos de niños usando los productos</div>
-    <div class="check-item" onclick="tog(this,'mat')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Video del proceso de fabricación</div>
-    <div class="check-item" onclick="tog(this,'mat')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Descripción escrita de cada producto</div>
-    <div class="check-item" onclick="tog(this,'mat')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Lista de precios actualizada</div>
-    <div class="check-item" onclick="tog(this,'mat')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Logo en alta resolución</div>
-    <div class="check-item" onclick="tog(this,'mat')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Testimonios de clientes</div>
-    <div class="check-item" onclick="tog(this,'mat')"><div class="checkbox"><svg class="tick" width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Fotos de ferias o eventos</div>
+    <div class="check-item" onclick="tog(this,'mat')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Fotos de calidad de los productos</div>
+    <div class="check-item" onclick="tog(this,'mat')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Fotos de niños usando los productos</div>
+    <div class="check-item" onclick="tog(this,'mat')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Video del proceso de fabricación</div>
+    <div class="check-item" onclick="tog(this,'mat')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Descripción escrita de cada producto</div>
+    <div class="check-item" onclick="tog(this,'mat')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Lista de precios actualizada</div>
+    <div class="check-item" onclick="tog(this,'mat')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Logo en alta resolución</div>
+    <div class="check-item" onclick="tog(this,'mat')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Testimonios de clientes</div>
+    <div class="check-item" onclick="tog(this,'mat')"><span class="checkbox"><svg class="tick" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Fotos de ferias o eventos</div>
   </div>
-  <div class="g2">
-    <div class="q"><span class="q-label">¿Tienes otras redes sociales además de Instagram?</span><textarea id="redes" rows="2" placeholder="Ej: Facebook, TikTok, Pinterest"></textarea></div>
-    <div class="q"><span class="q-label">¿Tienes correo de Ludos?</span><span class="q-hint">Ej: contacto@ludos.cl / ludos@gmail.com</span><textarea id="correo" rows="2" placeholder="Tu respuesta…"></textarea></div>
+  <div class="row">
+    <div class="q"><label class="q-label">¿Tienes otras redes sociales además de Instagram?</label><textarea id="redes" placeholder="Ej: Facebook, TikTok, Pinterest"></textarea></div>
+    <div class="q"><label class="q-label">¿Tienes correo de Ludos?</label><span class="q-hint">Ej: contacto@ludos.cl / ludos@gmail.com</span><textarea id="correo" placeholder="Tu respuesta…"></textarea></div>
   </div>
-  <div class="q"><span class="q-label">¿Hay algo más que deba saber antes de empezar?</span><span class="q-hint">Algo que te preocupa, una idea, algo que no quieres en el sitio…</span><textarea id="notas" rows="5" placeholder="Tu respuesta…"></textarea></div>
-</div></div>
+  <div class="q"><label class="q-label">¿Hay algo más que deba saber antes de empezar?</label><span class="q-hint">Algo que te preocupa, una idea, algo que no quieres en el sitio…</span><textarea id="notas" placeholder="Tu respuesta…"></textarea></div>
+</div></section>
 
 <!-- SUCCESS -->
 <div id="success">
   <div>
-    <div class="s-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 11.5l5 5 9-9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    <div class="s-h">Listo, Sebastián.<br>Ahora puedo trabajar.</div>
+    <div class="s-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="s-h">Listo, Sebastián.<br><em>Ahora puedo trabajar.</em></div>
     <p class="s-p">Recibí tus respuestas. Con esto en mano diseño la estructura del sitio y te presento la propuesta. Si algo no quedó claro, escríbeme sin problema.</p>
     <div class="s-firma">Franco Cruzat · Mayo 2026</div>
   </div>
@@ -238,48 +280,83 @@ textarea:focus{border-color:var(--border2);}
 
 <!-- NAV -->
 <div id="nav" style="display:none">
-  <button class="btn btn-ghost" onclick="back()"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M7 3L3 7l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Atrás</button>
-  <div class="dots" id="dots"></div>
+  <button class="btn btn-ghost" id="btn-back" onclick="back()"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M7 3L3 7l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Atrás</button>
+  <div class="dots-wrap"><div class="dots" id="dots"></div><div class="dots-label" id="dots-label"></div></div>
   <button class="btn btn-solid" id="btn-next" onclick="next()">Siguiente <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 </div>
 
 <script>
-const TOTAL=6;
-let cur=0;
-const checks={};
+const TOTAL=6,checks={};
+let cur=0,hintTimer=null;
+
+function showHint(msg){
+  const h=document.getElementById('hint');
+  h.textContent='';h.innerHTML='';h.textContent=msg;
+  h.classList.add('show');
+  clearTimeout(hintTimer);
+  hintTimer=setTimeout(()=>h.classList.remove('show'),3200);
+}
 
 function tog(el,g){
   el.classList.toggle('on');
+  el.classList.remove('pop');
+  void el.offsetWidth;
+  el.classList.add('pop');
   if(!checks[g])checks[g]=[];
   const t=el.textContent.trim();
   if(el.classList.contains('on'))checks[g].push(t);
   else checks[g]=checks[g].filter(v=>v!==t);
 }
 
+function hasInput(sec){
+  const s=document.getElementById(sec);
+  if(!s)return true;
+  const tas=s.querySelectorAll('textarea');
+  const cks=s.querySelectorAll('.check-item.on');
+  const sels=s.querySelectorAll('select');
+  return Array.from(tas).some(t=>t.value.trim())||cks.length>0||Array.from(sels).some(s=>s.value);
+}
+
 function ui(){
-  document.getElementById('progress-fill').style.width=(cur===0?0:(cur/TOTAL)*100)+'%';
+  const pct=cur===0?0:(cur/TOTAL)*100;
+  document.getElementById('progress-fill').style.width=pct+'%';
   const hdr=document.getElementById('header'),nav=document.getElementById('nav');
   if(cur===0){hdr.style.display='none';nav.style.display='none';}
   else{hdr.style.display='flex';nav.style.display='flex';document.getElementById('h-step').textContent=cur+' / '+TOTAL;}
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('success').classList.remove('active');
   if(cur===0)document.getElementById('cover').classList.add('active');
   else document.getElementById('s'+cur).classList.add('active');
   const dots=document.getElementById('dots');dots.innerHTML='';
-  for(let i=1;i<=TOTAL;i++){const d=document.createElement('div');d.className='dot'+(i===cur?' on':'');dots.appendChild(d);}
+  for(let i=1;i<=TOTAL;i++){
+    const d=document.createElement('div');
+    d.className='dot'+(i===cur?' on':i<cur?' done':'');
+    dots.appendChild(d);
+  }
+  document.getElementById('dots-label').textContent=cur+' de '+TOTAL;
   const btn=document.getElementById('btn-next');
-  btn.innerHTML=cur===TOTAL?'Enviar respuestas <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>':'Siguiente <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  window.scrollTo(0,0);
+  if(btn){btn.innerHTML=cur===TOTAL?'Enviar respuestas <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>':'Siguiente <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';}
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 function go(n){cur=n;ui();}
 function back(){cur=Math.max(0,cur-1);ui();}
 
+function next(){
+  if(cur>0&&!hasInput('s'+cur)){
+    showHint('Completa al menos un campo antes de continuar');
+    return;
+  }
+  if(cur<TOTAL){cur++;ui();return;}
+  submit();
+}
+
 function g(id){return(document.getElementById(id)||{value:''}).value.trim();}
 
-async function next(){
-  if(cur<TOTAL){cur++;ui();return;}
+async function submit(){
   const btn=document.getElementById('btn-next');
-  btn.disabled=true;btn.textContent='Enviando…';
+  btn.disabled=true;
+  btn.innerHTML='<span class="spinner"></span> Enviando…';
   const data={
     origen:g('origen'),frase:g('frase'),tiempo:g('tiempo'),equipo:g('equipo'),
     diferenciador:g('diferenciador'),gusta:g('gusta'),
@@ -291,10 +368,8 @@ async function next(){
     ubicacion:g('ubicacion'),exterior:g('exterior'),
     canales:(checks['canales']||[]).join(', '),
     proceso:g('proceso'),pagos:g('pagos'),pedidos:g('pedidos'),ferias:g('ferias'),
-    p1:document.getElementById('p1').value,
-    p2:document.getElementById('p2').value,
-    p3:document.getElementById('p3').value,
-    p4:document.getElementById('p4').value,
+    p1:document.getElementById('p1').value,p2:document.getElementById('p2').value,
+    p3:document.getElementById('p3').value,p4:document.getElementById('p4').value,
     contenido:g('contenido'),referencia:g('referencia'),fecha:g('fecha'),
     estilo:(checks['estilo']||[]).join(', '),
     materiales:(checks['mat']||[]).join(', '),
@@ -302,20 +377,18 @@ async function next(){
     _subject:'Brief Ludos — Sebastian Gonzalez'
   };
   try{
-    const r=await fetch('https://formspree.io/f/mojrvjop',{
-      method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
-      body:JSON.stringify(data)
-    });
+    const r=await fetch('https://formspree.io/f/mojrvjop',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)});
     if(r.ok){
       document.getElementById('nav').style.display='none';
       document.getElementById('header').style.display='none';
       document.getElementById('s6').classList.remove('active');
+      document.getElementById('progress-fill').style.width='100%';
       document.getElementById('success').classList.add('active');
-    } else throw new Error();
+    }else throw new Error();
   }catch{
     btn.disabled=false;
     btn.innerHTML='Enviar respuestas <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-    alert('Error al enviar. Intenta de nuevo.');
+    showHint('No se pudo enviar. Intenta de nuevo.');
   }
 }
 ui();
